@@ -15,9 +15,20 @@ def move_file(command: str) -> None:
         dir_path = os.path.dirname(destination_path)
         new_file = os.path.basename(destination_path)
     if dir_path:
-        dir_path = os.path.normpath(dir_path)
-        os.makedirs(dir_path, exist_ok=True)
-    full_path = os.path.join(dir_path, new_file) if dir_path else new_file
+        normalized_dir = os.path.normpath(dir_path)
+        parts = normalized_dir.split(os.sep)
+        current_path = ""
+        for part in parts:
+            if not part:
+                continue
+            current_path = os.path.join(current_path, part) \
+                if current_path else part
+            if not os.path.exists(current_path):
+                os.mkdir(current_path)
+    if dir_path:
+        full_path = os.path.join(os.path.normpath(dir_path), new_file)
+    else:
+        full_path = new_file
     with open(old_file, "r") as source_file:
         content = source_file.read()
     with open(full_path, "w") as destination_file:
