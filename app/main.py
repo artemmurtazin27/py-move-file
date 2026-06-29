@@ -1,7 +1,7 @@
 import os
 
 
-def move_file(command: str):
+def move_file(command: str) -> None:
     command_in_list = command.split(" ")
     old_file = command_in_list[1]
     destination_path = command_in_list[-1]
