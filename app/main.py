@@ -3,9 +3,11 @@ import os
 
 def move_file(command: str) -> None:
     command_in_list = command.split(" ")
+    if len(command_in_list) != 3 or command_in_list[0] != "mv":
+        raise ValueError("Invalid command format. "
+                         "Expected: 'mv <source> <destination>'")
     old_file = command_in_list[1]
     destination_path = command_in_list[-1]
-
     if destination_path.endswith("/") or destination_path.endswith("\\"):
         dir_path = destination_path
         new_file = os.path.basename(old_file)
